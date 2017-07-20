@@ -14,9 +14,9 @@ public class HelloJob implements Job {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("Current Exec Time Is:" + sf.format(date));
         JobKey key = jobExecutionContext.getJobDetail().getKey();
-        System.out.println("job identity:" + key.getName() + "," + key.getGroup());
+        // System.out.println("job identity:" + key.getName() + "," + key.getGroup());
         TriggerKey triggerKey = jobExecutionContext.getTrigger().getKey();
-        System.out.println("My Trigger name and group are:" + triggerKey.getName() + "," + triggerKey.getGroup());
+        // System.out.println("My Trigger name and group are:" + triggerKey.getName() + "," + triggerKey.getGroup());
 
         try {
             JobDataMap dataMap = jobExecutionContext.getJobDetail().getJobDataMap();
@@ -26,10 +26,10 @@ public class HelloJob implements Job {
             Float jobFloatValue = dataMap.getFloatValue("floatJobValue");
 
             String triggerMsg = tDataMap.getString("message");
-            System.out.println("JobMsg is:" + jobMsg);
-            System.out.println("JobFloatValue is:" + jobFloatValue);
+            // System.out.println("JobMsg is:" + jobMsg);
+            // System.out.println("JobFloatValue is:" + jobFloatValue);
 
-            System.out.println("triggerMsg is: " + triggerMsg);
+            // System.out.println("triggerMsg is: " + triggerMsg);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

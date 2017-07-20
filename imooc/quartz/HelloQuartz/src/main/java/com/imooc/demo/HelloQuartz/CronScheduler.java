@@ -32,7 +32,7 @@ public class CronScheduler {
     *
     * 0 15 10 ？ * 6L 2016-2017     2016-2017年每月最后一周的星期五
     * */
-    public static void main(String[] args) throws SchedulerException {
+    public static void main(String[] args) throws SchedulerException, InterruptedException {
         // 创建一个jobDetail实例，将改实例与HelloJobClass绑定
         JobDetail jobDetail = JobBuilder.newJob(HelloJob.class).withIdentity("myJob", "detail-group1")
                 .usingJobData("message", "hello myJob1")
@@ -49,7 +49,10 @@ public class CronScheduler {
                 .usingJobData("message", "hello myTrigger1")
                 .startNow()
                 .withSchedule(
-                        CronScheduleBuilder.cronSchedule("* * * * * ? *"))
+                        // 每天的14点到15点 还有 18点到19点期间的每5秒钟，执行一次
+                        // CronScheduleBuilder.cronSchedule("0/5 * 14,18 * * ?")
+                        CronScheduleBuilder.cronSchedule("* * * * * ?")
+                )
                 .build();
 
         // 创建Scheduler实例
@@ -59,6 +62,17 @@ public class CronScheduler {
         Date date = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("Current Time Is:" + sf.format(date));
-        scheduler.scheduleJob(jobDetail, trigger);
+        // 最近的一次执行的时间
+        Date executeDate = scheduler.scheduleJob(jobDetail, trigger);
+        System.out.println("最近的一次执行的时间:" + sf.format(executeDate));
+
+        // scheduler执行两秒后挂起
+        Thread.sleep(2000l);
+        scheduler.standby();
+        System.out.println("挂起:" + sf.format(new Date()));
+        // scheduler挂起3秒后重启
+        Thread.sleep(4000l);
+        System.out.println("重启:" + sf.format(new Date()));
+        scheduler.start();
     }
 }
