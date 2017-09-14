@@ -1,10 +1,26 @@
 package com.mix;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.junit.Test;
+import sun.misc.BASE64Encoder;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  */
 public class SecurityHelper {
-    private static String privateKey = "";
+    private static String privateKey = "jP9xl59o";
     
     /**
      * @param str
@@ -44,21 +60,65 @@ public class SecurityHelper {
         String tmp = des.decrypt(str);
         return tmp.trim();
     }
-    
-    
-    public static void main(String[]args){
-        System.out.println("main1");
-        String key = "jP9xl59o";
-        System.out.println("shit whatis that?");
-    	try{
-   		   // System.out.println(decrypt("db3de9a2bbd67f1fd2e101d9ffb304654827bc98d243a1cfc49997aac8f8638664114736eb43ebbd212c2e013846f47536f93f40470d0748ad4fb47c3433c80a6deb8eb533a30f1d491d13db530dd822b7a95d9282c8a26a550f753617c3ad1af2396ba9b6bccd2483d1cff05f17076faa96dfb2d99ebfebed5d45d144819b26e2f76a038223bad4582b68a411b33fde","jP9xl59o"));
-            System.out.println(encrypt("扯淡了", key));
-            //                             "e65d37b6767a3901ff2b3b814b2557ca"
-            System.out.println(decrypt("e65d37b6767a3901ff2b3b814b2557ca", key));
-        }catch(Exception e){
-    		
-    	}
+
+    @Test
+    public void test() throws Exception {
+        String a = encrypt("18817350807");
+        System.out.println(a);
     }
 
+    public static void main(String args[]) {
+        String url = "http://basketballgame.pernod-ricard-china.com/chivas2/increase";
+        //url = "http://localhost:3001/chivas2/increase";
+        //获取可关闭的 httpCilent
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        //配置超时时间
+        RequestConfig requestConfig = RequestConfig.custom().
+                setConnectTimeout(1000).setConnectionRequestTimeout(1000)
+                .setSocketTimeout(1000).setRedirectsEnabled(true).build();
+
+        HttpPost httpPost = new HttpPost(url);
+        //设置超时时间
+        httpPost.setConfig(requestConfig);
+
+        try {
+            //装配post请求参数
+            List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
+            //String pack = encrypt("{\"openId\": \"123456789\", \"stickerId\": \"123456789\"}");
+            String pack = Base64.encode("{\"openId\": \"123456789\", \"stickerId\": \"123456789\"}".getBytes());
+            list.add(new BasicNameValuePair("pack", pack));  //请求参数
+            UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list,"UTF-8");
+            //设置post求情参数
+            httpPost.setEntity(entity);
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            String strResult = "";
+            if(httpResponse != null){
+                System.out.println(httpResponse.getStatusLine().getStatusCode());
+                if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                    strResult = EntityUtils.toString(httpResponse.getEntity());
+                } else if (httpResponse.getStatusLine().getStatusCode() == 400) {
+                    strResult = "Error Response: " + httpResponse.getStatusLine().toString();
+                } else if (httpResponse.getStatusLine().getStatusCode() == 500) {
+                    strResult = "Error Response: " + httpResponse.getStatusLine().toString();
+                } else {
+                    strResult = "Error Response: " + httpResponse.getStatusLine().toString();
+                }
+            }else{
+
+            }
+            System.out.println(strResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(httpClient != null){
+                    httpClient.close(); //释放资源
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
 

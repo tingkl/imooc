@@ -1,8 +1,8 @@
 package com.mix;
 
 import javax.crypto.Cipher;
-import java.security.Security;
 import java.security.Key;
+import java.security.Security;
 
 /**
  * Created by IntelliJ IDEA. To change this template use File | Settings | File
