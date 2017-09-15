@@ -11,12 +11,14 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tingkl on 2017/9/5.
  */
 public class RSA {
-    private static String src = "====\\tingkl security rsa";
+    private static String src = "====\\tingkl security rs是的嘎的高度嘎达gas大嘎达搜嘎舍得给过分过分过分十大歌手地方a";
     private static String publicKeyBase64;
     private static String privateKeyBase64;
 
@@ -42,8 +44,12 @@ public class RSA {
     private static String decrypt(byte[] encryptBytesReceived, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, key);
-
-        byte[] result = cipher.doFinal(encryptBytesReceived);
+        List<byte[]> byteList = new ArrayList<byte[]>();
+        for (int i = 0; i < encryptBytesReceived.length; i += 64) {
+            // 注意要使用2的倍数，否则会出现加密后的内容再解密时为乱码
+            byteList.add(cipher.doFinal(subArray(encryptBytesReceived, i, 64)));
+        }
+        byte[] result = sysCopy(byteList);
         return new String(result);
     }
 
@@ -51,9 +57,17 @@ public class RSA {
     private static byte[] encrypt(String src, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] result = cipher.doFinal(src.getBytes());
+        // 加密时超过57字节就报错。为此采用分段加密的办法来加密
+        List<byte[]> byteList = new ArrayList<byte[]>();
+        byte[] bytes = src.getBytes();
+        for (int i = 0; i < bytes.length; i += 32) {
+            // 注意要使用2的倍数，否则会出现加密后的内容再解密时为乱码
+            byteList.add(cipher.doFinal(subArray(bytes, i, 32)));
+        }
+        byte[] result = sysCopy(byteList);
         return result;
     }
+
 
     private static PrivateKey getPrivateKey(byte[] bytes) throws NoSuchAlgorithmException, InvalidKeySpecException {
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(bytes);
@@ -181,5 +195,33 @@ public class RSA {
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         }
+    }
+
+    private static byte[] subArray(byte[] bytes, int start, int size) {
+        int length = bytes.length;
+        byte[] piece;
+        if (start + size < length) {
+            piece = new byte[size];
+        } else {
+            piece = new byte[length - start];
+        }
+        for(int i = 0; i < piece.length; i++) {
+            piece[i] = bytes[start + i];
+        }
+        return piece;
+    }
+
+    public static byte[] sysCopy(List<byte[]> srcArrays) {
+        int len = 0;
+        for (byte[] srcArray : srcArrays) {
+            len += srcArray.length;
+        }
+        byte[] destArray = new byte[len];
+        int destLen = 0;
+        for (byte[] srcArray : srcArrays) {
+            System.arraycopy(srcArray, 0, destArray, destLen, srcArray.length);
+            destLen += srcArray.length;
+        }
+        return destArray;
     }
 }
