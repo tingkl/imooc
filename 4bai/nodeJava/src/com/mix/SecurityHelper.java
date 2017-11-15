@@ -85,7 +85,7 @@ public class SecurityHelper {
             //装配post请求参数
             List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
             //String pack = encrypt("{\"openId\": \"123456789\", \"stickerId\": \"123456789\"}");
-            String pack = Base64.encode("{\"openId\": \"123456789\", \"stickerId\": \"123456789\"}".getBytes());
+            String pack = Base64.encode("{\"openId\": \"o3vWouDWPxCcDL8415Ism-rUoFK4\", \"stickerId\": \"test\"}".getBytes());
             list.add(new BasicNameValuePair("pack", pack));  //请求参数
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(list,"UTF-8");
             //设置post求情参数

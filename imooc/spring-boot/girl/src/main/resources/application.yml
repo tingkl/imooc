@@ -1,0 +1,23 @@
+#server:
+#  port: 8082
+#  # context-path: /girl
+#cupSize: B
+#age: 10
+#content: "cupSize:${cupSize},age:${age}"
+#girl:
+#  cupSize: B
+#  age: 10
+spring:
+  profiles:
+    active: prod
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://139.224.2.8:3306/dbgirl
+    username: sn
+    password: SNabc1234
+  jpa:
+    hibernate:
+      #ddl-auto: create 每次都建立新表
+      ddl-auto: update
+    show-sql: true
+

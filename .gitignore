@@ -1,6 +1,6 @@
 .idea
 **/target/
-
+**/*.class
 src/test/test.iml
 
 src/main/main.iml
