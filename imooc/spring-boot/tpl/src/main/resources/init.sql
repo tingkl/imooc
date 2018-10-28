@@ -51,10 +51,10 @@ INSERT INTO permission_role (rid, pid) VALUE (2, 4);
 -- 用户角色关系表 --
 CREATE TABLE user_role (
   uid INT(11) NOT NULL,
-  pid INT(11) NOT NULL ,
+  rid INT(11) NOT NULL ,
   KEY idx_uid (uid),
-  KEY idx_pid (pid)
+  KEY idx_rid (rid)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-INSERT INTO user_role (uid, pid) VALUE (1, 1);
-INSERT INTO user_role (uid, pid) VALUE (2, 2);
+INSERT INTO user_role (uid, rid) VALUE (1, 1);
+INSERT INTO user_role (uid, rid) VALUE (2, 2);

@@ -29,8 +29,9 @@ public class ShiroPermissionsFilter extends PermissionsAuthorizationFilter {
         logger.info("----------权限控制-------------");
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        String header = httpServletRequest.getHeader("X-Requested-With");
-        boolean isAjax = "XMLHttpRequest" == header;
+        String header = httpServletRequest.getHeader("Content-Type");
+        logger.debug(header);
+        boolean isAjax = "application/json".equals(header);
         if (isAjax) {//如果是ajax返回指定格式数据
             logger.info("----------AJAX请求拒绝-------------");
             httpServletResponse.setCharacterEncoding("UTF-8");

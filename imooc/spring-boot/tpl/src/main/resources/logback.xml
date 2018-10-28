@@ -30,6 +30,9 @@
     <logger name="com.mix.tpl.handler" level="debug" additivity="false">
         <appender-ref ref="PRINTLN" />
     </logger>
+    <logger name="com.mix.tpl.filter" level="debug" additivity="false">
+        <appender-ref ref="PRINTLN" />
+    </logger>
     <root level="ERROR">
         <appender-ref ref="STDOUT" />
     </root>
