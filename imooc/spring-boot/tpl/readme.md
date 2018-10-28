@@ -90,3 +90,13 @@ idea默认是src/main/java
 https://blog.csdn.net/suph1990/article/details/77484800
 
 需要打成war包
+
+## tomcat部署war
+
+```
+Windows下启动tomcat，一般直接运行startup.bat，启动后能看到日志
+
+Linux下直接启动./startup.sh但是查看不到启动日志信息，通过ps –ef|grep tomcat查看，实际已经启动
+
+但是可以通过运行./catalina.sh run启动，就可以像windows中一样查看tomcat启动信息了
+```
