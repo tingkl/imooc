@@ -93,6 +93,6 @@ public class AreaController {
 
     @GetMapping("/hot")
     private String hot() {
-        return "hot 4";
+        return "hot 5";
     }
 }

@@ -21,10 +21,8 @@ public class ShiroController {
     }
 
     @GetMapping("/index")
-    public Map index() {
-        Map map = new HashMap();
-        map.put("success", true);
-        return map;
+    public String index() {
+        return "index";
 
     }
 
