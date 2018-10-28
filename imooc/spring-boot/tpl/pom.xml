@@ -102,7 +102,20 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.mix.tpl.TplApplication</mainClass>
+                    <includeSystemScope>true</includeSystemScope>
+                    <layout>JAR</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <dependencies>
+
                 </dependencies>
             </plugin>
         </plugins>

@@ -18,7 +18,6 @@ mybatis的mapper.xml文件修改也会热更新
 
 ## 集成jsp
 
-   需要跑在tomcat下，热更新就失效了
 1. 加入依赖
 
     ```
@@ -65,3 +64,29 @@ mybatis的mapper.xml文件修改也会热更新
    spring.mvc.view.prefix=/pages/
    spring.mvc.view.suffix=.jsp   
  
+ 
+## idea打jar包
+
+```
+使用InteliJ IDEA导出jar包执行报错：找不到主清单属性
+2016年09月20日 10:34:37 Quin-champion 阅读数：9479 标签： idea jar maven  更多
+个人分类： IDE
+报错原因是因为MANIFEST.MF文件下找不到MAIN-CLASS的属性
+可以打卡导出的jar包MANIFEST.MF文件查看验证
+
+解决方法：
+
+再添加jar包的时候，修改DIRECT FOR MANIFEST.MF
+
+idea默认是src/main/java
+
+我们需要设置为src目录即可
+``` 
+
+## spring-boot打成jar包访问不了jsp
+
+可以访问到html
+
+https://blog.csdn.net/suph1990/article/details/77484800
+
+需要打成war包
