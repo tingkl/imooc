@@ -24,7 +24,10 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         Map<String, Filter> filters = bean.getFilters();
         // 注入自定义的权限验证失败的过滤器
+        // 权限不足
         filters.put("perms", new ShiroPermissionsFilter());
+        // 角色不足
+        filters.put("roles", new ShiroPermissionsFilter());
         bean.setSecurityManager(manager);
 
         bean.setLoginUrl("/login.html");
@@ -35,7 +38,8 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/login.html", "anon");
         filterChainDefinitionMap.put("/logout", "anon");
         filterChainDefinitionMap.put("/girls", "anon");
-        filterChainDefinitionMap.put("/area/**", "perms[edit]");
+        filterChainDefinitionMap.put("/area/**", "roles[admin]");
+//        filterChainDefinitionMap.put("/area/**", "perms[edit]");
         filterChainDefinitionMap.put("/test", "anon");
         filterChainDefinitionMap.put("/index.html", "authc");
         filterChainDefinitionMap.put("/loginUser", "anon");
