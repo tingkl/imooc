@@ -8,9 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,42 +18,22 @@ import javax.servlet.http.HttpSession;
 public class ShiroController {
     private final static Logger logger = LoggerFactory.getLogger(ShiroController.class);
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/index")
-    public String index() {
-        return "index";
-    }
-
-    @GetMapping("/admin")
-    @ResponseBody
-    public String admin() {
-        return "admin success";
-    }
-
-    @GetMapping("/unauthorized")
-    public String unauthorized() {
-        return "unauthorized";
-    }
-
-    @GetMapping("/edit")
-    @ResponseBody
-    public String edit() {
-        return "edit success";
-    }
-
     @GetMapping("/logout")
     public String logout() {
+        logger.warn("logout");
         Subject subject = SecurityUtils.getSubject();
         if (subject != null) {
             subject.logout();
         }
         return "login";
     }
-    @PostMapping("/loginUser")
+
+    @GetMapping("/test")
+    public String test() {
+        return "admin";
+    }
+
+    @RequestMapping("/loginUser")
     public String loginUser(@RequestParam("username") String username,
                             @RequestParam("password") String password,
                             HttpSession session) {
@@ -65,9 +44,9 @@ public class ShiroController {
             subject.login(token);
             User user = (User) subject.getPrincipal();
             session.setAttribute("user", user);
+            logger.debug(user.toString());
             return "index";
         } catch (Exception e) {
-            e.printStackTrace();
             return "login";
         }
     }

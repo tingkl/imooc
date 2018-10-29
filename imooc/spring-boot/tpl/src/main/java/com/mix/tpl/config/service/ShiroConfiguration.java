@@ -27,17 +27,20 @@ public class ShiroConfiguration {
         filters.put("perms", new ShiroPermissionsFilter());
         bean.setSecurityManager(manager);
 
-        bean.setLoginUrl("/login");
-        bean.setSuccessUrl("/index");
-        bean.setUnauthorizedUrl("/unauthorized");
+        bean.setLoginUrl("/login.html");
+        bean.setSuccessUrl("/index.html");
+        bean.setUnauthorizedUrl("/unauthorized.html");
 
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/index", "authc");
-        filterChainDefinitionMap.put("/index.html", "anon");
-        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/login.html", "anon");
+        filterChainDefinitionMap.put("/logout", "anon");
+        filterChainDefinitionMap.put("/girls", "anon");
+        filterChainDefinitionMap.put("/area/**", "perms[edit]");
+        filterChainDefinitionMap.put("/test", "anon");
+        filterChainDefinitionMap.put("/index.html", "authc");
         filterChainDefinitionMap.put("/loginUser", "anon");
-        filterChainDefinitionMap.put("/admin", "roles[admin]");
-        filterChainDefinitionMap.put("/edit", "perms[edit]");
+        filterChainDefinitionMap.put("/admin.html", "roles[admin]");
+        filterChainDefinitionMap.put("/edit.html", "perms[edit]");
         filterChainDefinitionMap.put("/**", "user");
 
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);

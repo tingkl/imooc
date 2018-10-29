@@ -26,6 +26,7 @@ public class ShiroPermissionsFilter extends PermissionsAuthorizationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException {
+        System.out.println("34343434");
         logger.info("----------权限控制-------------");
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;

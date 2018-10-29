@@ -1,6 +1,7 @@
 package com.mix.tpl.handler;
 
 import com.mix.tpl.Exception.AreaNotExists;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,8 +30,19 @@ public class GlobalExceptionHandler {
         modelMap.put("success", false);
         modelMap.put("errMsg", e.getMessage());
         // 其他的异常走这里
-        e.printStackTrace();
+//        e.printStackTrace();
         System.out.println("exceptionHandler");
+        return modelMap;
+    }
+    @ExceptionHandler(value = AuthenticationException.class)
+    @ResponseBody
+    private Map<String, Object> AuthenticationExceptionHandler(HttpServletRequest req, Exception e) {
+        Map<String, Object> modelMap = new HashMap<>();
+        modelMap.put("success", false);
+        modelMap.put("errMsg", e.getMessage());
+        // 其他的异常走这里
+//        e.printStackTrace();
+        System.out.println("AuthenticationExceptionHandler");
         return modelMap;
     }
 }
