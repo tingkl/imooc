@@ -27,37 +27,7 @@ public class ShiroController {
         if (subject != null) {
             subject.logout();
         }
-        return "redirect:login";
-    }
-
-    @GetMapping("/admin")
-    public String admin() {
-        System.out.println("admin");
-        return "admin";
-    }
-
-    @GetMapping("/demo")
-    public String demo() {
-        System.out.println("demo");
-        return "demo";
-    }
-
-    @GetMapping("/edit")
-    public String edit() {
-        System.out.println("edit");
-        return "edit";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        System.out.println("login");
-        return "login";
-    }
-
-    @GetMapping("/index")
-    public String index() {
-        System.out.println("index");
-        return "index";
+        return "redirect:login.html";
     }
 
     @GetMapping("/test")
@@ -93,9 +63,9 @@ public class ShiroController {
             session.setAttribute("user", user);
             System.out.println("redirect:index");
             logger.debug("redirect:index");
-            return "redirect:index";
+            return "redirect:index.html";
         } catch (Exception e) {
-            return "redirect:login";
+            return "redirect:login.html";
         }
     }
 }

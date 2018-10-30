@@ -35,13 +35,13 @@ public class ShiroConfiguration {
         bean.setUnauthorizedUrl("/unauthorized.html");
 
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/login.html", "anon");
         filterChainDefinitionMap.put("/logout", "anon");
         filterChainDefinitionMap.put("/loginUser", "anon");
-        filterChainDefinitionMap.put("/index", "authc");
-        filterChainDefinitionMap.put("/admin", "roles[admin]");
-        filterChainDefinitionMap.put("/demo", "roles[demo]");
-        filterChainDefinitionMap.put("/edit", "perms[edit]");
+        filterChainDefinitionMap.put("/index.html", "authc");
+        filterChainDefinitionMap.put("/admin.html", "roles[admin]");
+        filterChainDefinitionMap.put("/demo.html", "roles[demo]");
+        filterChainDefinitionMap.put("/edit.html", "perms[edit]");
         filterChainDefinitionMap.put("/girls", "anon");
         filterChainDefinitionMap.put("/area/**", "roles[admin]");
 //        filterChainDefinitionMap.put("/area/**", "perms[edit]");

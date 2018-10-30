@@ -1,6 +1,7 @@
 package com.mix.tpl.config.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -12,6 +13,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 public class TransactionConfiguration implements TransactionManagementConfigurer {
+    @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
     @Override
