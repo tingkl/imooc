@@ -1,5 +1,8 @@
 package com.mix.tpl.filter;
 
+import com.mix.tpl.entity.User;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +29,6 @@ public class ShiroPermissionsFilter extends PermissionsAuthorizationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException {
-        System.out.println("34343434");
         logger.info("----------权限控制-------------");
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
@@ -41,6 +43,9 @@ public class ShiroPermissionsFilter extends PermissionsAuthorizationFilter {
             httpServletResponse.getWriter().write("{\"msg\":\"未认证\", \"success\": false}");
         } else {//如果是普通请求进行重定向
             logger.info("----------普通请求拒绝-------------");
+            Subject subject = SecurityUtils.getSubject();
+            User user = (User) subject.getPrincipal();
+            System.out.println(user);
             httpServletResponse.sendRedirect("/403");
         }
         return false;

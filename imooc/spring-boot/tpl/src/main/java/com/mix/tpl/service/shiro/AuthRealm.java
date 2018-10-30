@@ -39,6 +39,9 @@ public class AuthRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(permissionList);
         info.addRoles(roleNameList);
+        System.out.println("授权");
+        System.out.println(permissionList);
+        System.out.println(roleNameList);
         return info;
     }
 
@@ -48,6 +51,8 @@ public class AuthRealm extends AuthorizingRealm {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         String username = usernamePasswordToken.getUsername();
         User user = userService.findByUsername(username);
+        System.out.println("认证");
+        System.out.println(user.toString());
         return new SimpleAuthenticationInfo(user, user.getPassword(), this.getClass().getName());
     }
 }

@@ -27,7 +27,7 @@ public class ShiroConfiguration {
         // 权限不足
         filters.put("perms", new ShiroPermissionsFilter());
         // 角色不足
-        filters.put("roles", new ShiroPermissionsFilter());
+//      filters.put("roles", new ShiroPermissionsFilter());
         bean.setSecurityManager(manager);
 
         bean.setLoginUrl("/login.html");
@@ -36,16 +36,17 @@ public class ShiroConfiguration {
 
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/login.html", "anon");
-        filterChainDefinitionMap.put("/logout", "anon");
+        filterChainDefinitionMap.put("/shiro/logout", "anon");
+        filterChainDefinitionMap.put("/shiro/loginUser", "anon");
+        filterChainDefinitionMap.put("/index.html", "authc");
+        filterChainDefinitionMap.put("/admin.html", "roles[admin]");
+        filterChainDefinitionMap.put("/demo.html", "roles[demo]");
+        filterChainDefinitionMap.put("/edit.html", "perms[edit]");
         filterChainDefinitionMap.put("/girls", "anon");
         filterChainDefinitionMap.put("/area/**", "roles[admin]");
 //        filterChainDefinitionMap.put("/area/**", "perms[edit]");
         filterChainDefinitionMap.put("/test", "anon");
-        filterChainDefinitionMap.put("/index.html", "authc");
-        filterChainDefinitionMap.put("/loginUser", "anon");
-        filterChainDefinitionMap.put("/admin.html", "roles[admin]");
-        filterChainDefinitionMap.put("/edit.html", "perms[edit]");
-        filterChainDefinitionMap.put("/**", "user");
+//        filterChainDefinitionMap.put("/**", "user");
 
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
