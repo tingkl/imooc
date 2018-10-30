@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 
 
 @Controller
-@RequestMapping("/shiro")
 public class ShiroController {
     private final static Logger logger = LoggerFactory.getLogger(ShiroController.class);
 
@@ -28,7 +27,37 @@ public class ShiroController {
         if (subject != null) {
             subject.logout();
         }
+        return "redirect:login";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        System.out.println("admin");
+        return "admin";
+    }
+
+    @GetMapping("/demo")
+    public String demo() {
+        System.out.println("demo");
+        return "demo";
+    }
+
+    @GetMapping("/edit")
+    public String edit() {
+        System.out.println("edit");
+        return "edit";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        System.out.println("login");
         return "login";
+    }
+
+    @GetMapping("/index")
+    public String index() {
+        System.out.println("index");
+        return "index";
     }
 
     @GetMapping("/test")
@@ -62,10 +91,11 @@ public class ShiroController {
             subject.login(token);
             User user = (User) subject.getPrincipal();
             session.setAttribute("user", user);
-            logger.debug(user.toString());
-            return "index";
+            System.out.println("redirect:index");
+            logger.debug("redirect:index");
+            return "redirect:index";
         } catch (Exception e) {
-            return "login";
+            return "redirect:login";
         }
     }
 }
