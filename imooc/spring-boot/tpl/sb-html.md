@@ -22,10 +22,9 @@
    spring.mvc.view.prefix=/
    spring.mvc.view.suffix=.html 
    ```
-3. post form返回html不支持
+3. post form
 
-   只能用get 方式提交form，才能正常返回html   
-   
-   这只是针对form提交，ajax不所谓了，不会返回html 
+   应该redirect:xxx返回html, 不能直接返回xxx.html
+
  
  
