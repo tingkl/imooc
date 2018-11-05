@@ -1,5 +1,14 @@
+## 超卖问题
 
+1. 数据库加唯一索引：防止用户重复购买
+2. SQL加库存数量判断：防止库存变成负数
 
-Error:java: Internal compiler error: java.lang.Exception: java.lang.NoClassDefFoundError解决
+## 秒杀接口优化
 
-分下看这个跟Eclipse有关，可是这个不是Eclipse项目（没有Eclipse的Workspeace信息），后来查找发现跟Eclipse有关设置就是之前自己设置锅编译器，改过来问题得到解决。解决步骤：IDEA中File-->settings-->Bulid Execution Deloyment-->Complier-->Java Complier中的user complier有原来的Eclipse改为javac即可
+思路：健身数据库访问
+
+1. 系统初始化，把商品库存数量加载到Redis
+2. 收到请求，Redis预减库存，库存不足，直接返回
+3. 请求入队，立即返回排队中
+4. 请求出队，生成订单，减少库存
+5. 客户端轮休，是否秒杀成功
