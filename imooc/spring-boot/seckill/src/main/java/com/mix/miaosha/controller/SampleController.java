@@ -1,12 +1,10 @@
 package com.mix.miaosha.controller;
 
-import com.mix.miaosha.domain.User;
-import com.mix.miaosha.result.CodeMsg;
-import com.mix.miaosha.result.Result;
-import com.mix.miaosha.service.RedisService;
+import com.mix.miaosha.domain.entity.User;
+import com.mix.miaosha.domain.result.Result;
+import com.mix.miaosha.redis.RedisService;
 import com.mix.miaosha.service.UserService;
-import com.mix.miaosha.service.prefix.UserKey;
-import org.apache.ibatis.annotations.Param;
+import com.mix.miaosha.redis.UserKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

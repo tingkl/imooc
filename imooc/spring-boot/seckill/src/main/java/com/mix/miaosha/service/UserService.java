@@ -1,7 +1,7 @@
 package com.mix.miaosha.service;
 
 import com.mix.miaosha.dao.UserDao;
-import com.mix.miaosha.domain.User;
+import com.mix.miaosha.domain.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +25,13 @@ public class  UserService {
         userDao.insert(u2);
         userDao.insert(u1);
         return true;
+    }
+
+    public int effectedRow(String name) {
+        return userDao.effectedRow(name);
+    }
+
+    public int effectedRowReduce() {
+        return userDao.effectedRowReduce();
     }
 }
