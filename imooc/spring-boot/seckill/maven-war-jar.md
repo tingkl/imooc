@@ -2,8 +2,14 @@
 
 1. 添加spring-boot-starter-tomcat的provided依赖
 
-    ```
     provided运行时是不会打进来的，因为运行时是有tomcat的，provided是一个编译时依赖
+
+    ```
+     <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
+    </dependency>
     ```
 2. 添加maven-war-plugin插件
 
