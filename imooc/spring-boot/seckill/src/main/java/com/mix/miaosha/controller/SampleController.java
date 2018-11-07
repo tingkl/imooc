@@ -2,6 +2,8 @@ package com.mix.miaosha.controller;
 
 import com.mix.miaosha.domain.entity.User;
 import com.mix.miaosha.domain.result.Result;
+import com.mix.miaosha.rabbitmq.MQReceiver;
+import com.mix.miaosha.rabbitmq.MQSender;
 import com.mix.miaosha.redis.RedisService;
 import com.mix.miaosha.service.UserService;
 import com.mix.miaosha.redis.UserKey;
@@ -21,12 +23,42 @@ public class SampleController {
     @Autowired
     RedisService redisService;
 
+    @Autowired
+    MQSender mqSender;
+
     @RequestMapping("/thymeleaf")
     public String thymeleaf(Model model) {
         model.addAttribute("name", "tingkl");
         return "hello";
     }
 
+    @GetMapping("/mq")
+    @ResponseBody
+    public Result mq() {
+        mqSender.send("hello, mq");
+        return Result.success("hello, mq");
+    }
+
+    @GetMapping("/mq/topic")
+    @ResponseBody
+    public Result topic() {
+        mqSender.sendTopic("hello, mq");
+        return Result.success("hello, mq");
+    }
+
+    @GetMapping("/mq/fanout")
+    @ResponseBody
+    public Result fanout() {
+        mqSender.sendFanout("hello, mq");
+        return Result.success("hello, mq");
+    }
+
+    @GetMapping("/mq/headers")
+    @ResponseBody
+    public Result headers() {
+        mqSender.sendHeader("hello, mq");
+        return Result.success("hello, mq");
+    }
 
     @GetMapping("/db/get")
     @ResponseBody
