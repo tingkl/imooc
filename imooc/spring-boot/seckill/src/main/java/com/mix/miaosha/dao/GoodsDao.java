@@ -20,4 +20,7 @@ public interface GoodsDao {
     // 数据库本身会对写加锁，不会出现两个线程更新一条记录的情况
     @Update("update miaosha_goods set stock_count = stock_count - 1 where goods_id = #{goodsId} and stock_count > 0")
     int reduceStock(MiaoshaGoods g);
+
+    @Update("update miaosha_goods set stock_count = #{stockCount} where goods_id = #{goodsId}")
+    public int resetStock(MiaoshaGoods g);
 }

@@ -17,6 +17,14 @@ public class MQConfig {
     public static final String FANOUT_EXCHANGE = "fanout.exchange";
     public static final String HEADERS_EXCHANGE = "headers.exchange";
     public static final String HEADERS_QUEUE = "headers.queue";
+
+    public static final String MIAOSHA_QUEUE = "miaosha.queue";
+
+    @Bean
+    public Queue miaoshaQueue() {
+        return new Queue(MIAOSHA_QUEUE, true);
+    }
+
     /**
      * Direct模式
      **/

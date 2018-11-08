@@ -28,4 +28,13 @@ public class GoodsService {
         g.setStockCount(goods.getStockCount() - 1);
         return goodsDao.reduceStock(g);
     }
+
+    public void resetStock(List<GoodsVo> goodsList) {
+        for(GoodsVo goods : goodsList ) {
+            MiaoshaGoods g = new MiaoshaGoods();
+            g.setGoodsId(goods.getId());
+            g.setStockCount(goods.getStockCount());
+            goodsDao.resetStock(g);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.mix.miaosha.rabbitmq;
 
+import com.mix.miaosha.domain.message.MiaoshaMessage;
 import com.mix.miaosha.util.ConvertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,5 +45,11 @@ public class MQSender {
         properties.setHeader("header2", "value2");
         Message obj = new Message(msg.getBytes(), properties);
         amqpTemplate.convertAndSend(MQConfig.HEADERS_EXCHANGE, "", obj);
+    }
+
+    public void sendMiaoshaMessage(MiaoshaMessage miaoshaMessage) {
+        String msg = ConvertUtil.beanToString(miaoshaMessage);
+        log.info("send miaosha message:" + msg);
+        amqpTemplate.convertAndSend(MQConfig.MIAOSHA_QUEUE, msg);
     }
 }

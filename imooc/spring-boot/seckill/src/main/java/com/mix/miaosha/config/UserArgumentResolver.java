@@ -1,5 +1,6 @@
 package com.mix.miaosha.config;
 
+import com.mix.miaosha.access.UserContext;
 import com.mix.miaosha.domain.entity.MiaoshaUser;
 import com.mix.miaosha.domain.result.CodeMsg;
 import com.mix.miaosha.domain.vo.TokenUserVo;
@@ -31,22 +32,26 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-        HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
-        String paramToken = request.getParameter(MiaoshaUserService.COOKIE_NAME_TOKEN);
-        String cookieToken = getCookieValue(request, MiaoshaUserService.COOKIE_NAME_TOKEN);
-        if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
-            throw new GlobalException(CodeMsg.TOKEN_USER_NOT_EXIST);
+        // AccessInterceptor先执行，如果有AccessLimit就已经存过TokenUserVo了
+        TokenUserVo tokenUserVo = UserContext.getUser();
+        if (tokenUserVo == null) {
+            HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
+            HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
+            String paramToken = request.getParameter(MiaoshaUserService.COOKIE_NAME_TOKEN);
+            String cookieToken = getCookieValue(request, MiaoshaUserService.COOKIE_NAME_TOKEN);
+            if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
+                throw new GlobalException(CodeMsg.TOKEN_USER_NOT_EXIST);
+            }
+            String token = StringUtils.isEmpty(paramToken) ? cookieToken : paramToken;
+            MiaoshaUser miaoshaUser = miaoshaUserService.getByToken(response, token);
+            tokenUserVo = new TokenUserVo();
+            tokenUserVo.setMobile(miaoshaUser.getMobile());
+            tokenUserVo.setName(miaoshaUser.getName());
+            tokenUserVo.setPassword(miaoshaUser.getPassword());
+            tokenUserVo.setSalt(miaoshaUser.getSalt());
+            tokenUserVo.setId(miaoshaUser.getId());
+            // System.out.println("触发UserArgumentResolver");
         }
-        String token = StringUtils.isEmpty(paramToken) ? cookieToken : paramToken;
-        MiaoshaUser miaoshaUser = miaoshaUserService.getByToken(response, token);
-        TokenUserVo tokenUserVo = new TokenUserVo();
-        tokenUserVo.setMobile(miaoshaUser.getMobile());
-        tokenUserVo.setName(miaoshaUser.getName());
-        tokenUserVo.setPassword(miaoshaUser.getPassword());
-        tokenUserVo.setSalt(miaoshaUser.getSalt());
-        tokenUserVo.setId(miaoshaUser.getId());
-        // System.out.println("触发UserArgumentResolver");
         return tokenUserVo;
     }
 

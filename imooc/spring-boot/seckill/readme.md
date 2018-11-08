@@ -34,5 +34,33 @@
 2. 收到请求，Redis预减库存，库存不足，直接返回
 3. 请求入队，立即返回排队中
 4. 请求出队，生成订单，减少库存
-5. 客户端轮休，是否秒杀成功
+5. 客户端轮询，是否秒杀成功
 
+
+## nginx负载均衡
+
+```
+upstream ms {
+    server localhost:8060   weight=1 max_fails=2 fail_timeout=30s;
+    server otherserver:8060 weight=1 max_fails=2 fail_timeout=30s;
+}
+server
+{
+    listen 80;
+    server_name ms.tingkl.com;
+    location / {
+        proxy_pass  http://ms;
+        # 传递ip地址
+        # Forward the user's IP address to Rails
+        proxy_set_header X-Real-IP $remote_addr;
+        # needed for HTTPS
+        # proxy_set_header X_FORWARDED_PROTO https;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_set_header Origin $http_origin;
+        proxy_set_header Referer $http_referer;
+        # 文件上传大小限制
+        client_max_body_size  100m;
+    }
+}
+```

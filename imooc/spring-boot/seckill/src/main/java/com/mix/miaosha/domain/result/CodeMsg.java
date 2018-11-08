@@ -15,6 +15,8 @@ public class CodeMsg extends Base {
 	public static CodeMsg PASSWORD_ERROR = new CodeMsg(500213, "密码错误");
 	public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常： %s");
 	public static CodeMsg TOKEN_USER_NOT_EXIST = new CodeMsg(500102, "token user不存在");
+	public static CodeMsg REQUEST_ILLEGAL = new CodeMsg(500102, "请求非法");
+	public static CodeMsg ACCESS_LIMIT_REACHED= new CodeMsg(500104, "访问太频繁！");
 
 	//登录模块 5002XX
 	
